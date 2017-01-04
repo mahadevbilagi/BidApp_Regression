@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Test-Suite01]">
+	<test name="Test-Two(failed)">
+		<classes>
+			<class name="coms.bidapp.Newuser">
+				<methods>
+					<include name="setup" />
+					<include name="initialize" />
+					<include name="Newusertest" />
+				</methods>
+			</class> <!-- coms.bidapp.Newuser -->
+		</classes>
+	</test> <!-- Test-Two(failed) -->
+</suite> <!-- Failed suite [Test-Suite01] -->

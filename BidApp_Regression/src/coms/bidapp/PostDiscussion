@@ -1,0 +1,81 @@
+package src.coms.bidapp;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.io.TemporaryFilesystem;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import src.coms.home.BaseFile;
+
+public class PostDiscussion extends BaseFile{
+			
+			int i;
+					
+			@BeforeClass
+			public void initialize() {
+				i = 1;								
+			}
+	
+			@Test(invocationCount = 1)												 					//@BeforeSuite annotation describes this method has to run before all suites
+		    public void NewPost() throws Exception { 				
+				
+				
+				WebDriver driver = new FirefoxDriver();
+				driver.manage().deleteAllCookies();							// delete all the cookies
+				
+				driver.manage().window().maximize();
+		        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);	 
+		        driver.get("http://connect.triconinfotech.com/corpbuzz-dev/#/"); 	
+				
+			    driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+			    
+		        driver.findElement(By.id("userEmail")).click();  											// select the company name
+		        
+		        driver.findElement(By.id("userEmail")).sendKeys("testnguser"+i+"@triconinfotech.com");	
+		 		
+		        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);			        
+		        driver.findElement(By.xpath("//*[@id='get-code']/input")).click();  						// click on generate authentication code button	
+
+		        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);			        
+		        driver.findElement(By.id("next-button")).click();											// Click on next buttons
+		        
+		        driver.findElement(By.xpath("/html/body/div/div/div/table/tbody/tr/td[2]/img")).click();	// Click on menu 
+			//	driver.findElement(By.xpath("/html/body/div/div/div[3]/ul/li[8]/a")).click();				// Click on Post your add menu
+		        
+		        driver.findElement(By.xpath("//*[@id='right_menu']/ul/li[9]/a")).click();					// Click on Post Discussion
+		      
+		        driver.findElement(By.id("inputTitle")).click();																// Click on Title
+		        driver.findElement(By.id("inputTitle")).sendKeys("TestNG Post Discussion - "+i);								// Enter Title details
+		        
+		        driver.findElement(By.id("inputDescription")).click();																// Click on Post your Query
+		        driver.findElement(By.id("inputDescription")).sendKeys("TestNG Post Discussion - "+i);								// Enter the details		        
+		        
+		        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/form/div[3]/tags-input/div/div")).click();													// Click on Add a tag
+		        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/form/div[3]/tags-input/div/div")).sendKeys("TestNG Post Discussion - "+i);					// Enter the Tag details - 1
+		        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/form/div[3]/tags-input/div/div")).sendKeys("TestNG Post Discussion - "+i);					// Enter the Tag details - 2
+		        
+		        
+		        
+		        i++;	
+		        driver.quit();
+		    } 
+			
+			@AfterTest
+			public void afterSuite() {
+				
+				/*	System.out.println("in afterSuite");
+					try {
+						SendMails.execute("emailable-report.html");
+					} catch (Exception e) {
+	
+						e.printStackTrace();
+					}*/
+				
+			     TemporaryFilesystem.getDefaultTmpFS().deleteTemporaryFiles();				
+			}	
+}
